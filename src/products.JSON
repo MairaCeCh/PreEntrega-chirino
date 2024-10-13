@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Eau de Parfum Luna",
+    "description": "Un perfume elegante con notas florales y un toque de almizcle.",
+    "code": "EDP100L",
+    "price": 55.99,
+    "stock": 20,
+    "category": "Perfume Femenino"
+  },
+  {
+    "id": 2,
+    "title": "Aqua Sport Cologne",
+    "description": "Fragancia fresca y cítrica, ideal para el día a día.",
+    "code": "ASC200M",
+    "price": 39.99,
+    "stock": 15,
+    "category": "Colonia Masculina"
+  },
+  {
+    "id": 3,
+    "title": "Rose Blossom Mist",
+    "description": "Mist corporal ligero con aroma de rosas frescas.",
+    "code": "RBM50F",
+    "price": 19.99,
+    "stock": 30,
+    "category": "Mist Corporal"
+  },
+  {
+    "id": 4,
+    "title": "Noir Intense Parfum",
+    "description": "Fragancia masculina con notas amaderadas y de cuero.",
+    "code": "NIP75M",
+    "price": 69.99,
+    "stock": 10,
+    "category": "Perfume Masculino"
+  },
+  {
+    "id": 5,
+    "title": "Citrus Breeze",
+    "description": "Un perfume cítrico y energizante para uso diario.",
+    "code": "CB100U",
+    "price": 69,
+    "stock": 18,
+    "category": "Perfume Unisex"
+  },
+  {
+    "id": 6,
+    "title": "Vanilla Dream Mist",
+    "description": "Mist corporal con un dulce aroma de vainilla.",
+    "code": "VDM60F",
+    "price": 24.99,
+    "stock": 25,
+    "category": "Mist Corporal"
+  },
+  {
+    "id": 7,
+    "title": "Ocean Wave Cologne",
+    "description": "Colonia refrescante con notas de océano y cítricos.",
+    "code": "OWC150M",
+    "price": 42.99,
+    "stock": 12,
+    "category": "Colonia Masculina"
+  },
+  {
+    "id": 8,
+    "title": "Golden Jasmine Eau de Toilette",
+    "description": "Fragancia ligera con delicadas notas de jazmín y sándalo.",
+    "code": "GJET50F",
+    "price": 35.99,
+    "stock": 22,
+    "category": "Perfume Femenino"
+  },
+  {
+    "id": 9,
+    "title": "Woodland Spice",
+    "description": "Perfume cálido con notas especiadas y amaderadas.",
+    "code": "WS100M",
+    "price": 59.99,
+    "stock": 8,
+    "category": "Perfume Masculino"
+  },
+  {
+    "id": 10,
+    "title": "Lavender Bliss Mist",
+    "description": "Mist corporal relajante con aroma de lavanda.",
+    "code": "LBM40F",
+    "price": 22.99,
+    "stock": 28,
+    "category": "Mist Corporal"
+  }
+]
