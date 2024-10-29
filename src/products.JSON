@@ -88,5 +88,16 @@
     "price": 22.99,
     "stock": 28,
     "category": "Mist Corporal"
+  },
+  {
+    "id": "Ye7NbNNCPV",
+    "title": "trete",
+    "description": "etr",
+    "code": "etr",
+    "price": 5,
+    "status": true,
+    "stock": 55,
+    "category": "ter",
+    "thumbnails": []
   }
 ]
