@@ -10,7 +10,9 @@ import handlebars from "express-handlebars";
 
 
 const app = express();
-//motor de plantillas
+
+
+
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${config.DIRNAME}/views`);
 app.set("view engine", "handlebars");
@@ -39,20 +41,19 @@ async function fetchCarts(filePath) {
 }
 
 fetchCarts("./src/carts.JSON");
-///api////
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-
-
-///vistas
 app.use("/views", viewsRouter)
 
 
-// Socket.io
+
 
 const httpServer = app.listen(config.PORT, () => {
   console.log(`todo ok en el puerto ${config.PORT}`);
