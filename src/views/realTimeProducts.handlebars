@@ -1,0 +1,174 @@
+
+<div class="container mx-auto px-4 py-8"></div>
+  <div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Lista de Productos</h2>
+    <ul id="ulList" class="bg-white shadow-md rounded-lg divide-y divide-gray-200"></ul>
+  </div>
+
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">Agregar Nuevo Producto</h2>
+    <form id="productForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Título:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="title" name="title" required />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Descripción:</label>
+        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" required></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="code">Código:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="code" name="code" required />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Precio:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" id="price" name="price" step="0.01" required />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="status">Estado:</label>
+        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status">
+          <option value="true">Activo</option>
+          <option value="false">Inactivo</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">Stock:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" id="stock" name="stock" required />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="category">Categoría:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="category" name="category" required />
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="thumbnails">Imágenes (URLs separadas por comas):</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="thumbnails" name="thumbnails" />
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+          Agregar Producto
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  let data = [];
+  const ulList = document.getElementById('ulList');
+
+  async function fetchProducts() {
+    try {
+      const response = await fetch('/api/products');
+      console.log('Response completo:', response);
+      
+      const result = await response.json();
+      console.log('Data parseada:', result);
+      console.log('Estructura de result:', {
+        esArray: Array.isArray(result),
+        tipo: typeof result,
+        tieneDataProp: result.hasOwnProperty('data'),
+        keys: Object.keys(result)
+      });
+      
+      if (Array.isArray(result)) {
+        data = result;
+      } else if (result.data && Array.isArray(result.data)) {
+        data = result.data;
+      } else {
+        console.error('Los datos recibidos no son un array:', result);
+        data = [];
+      }
+      
+      console.log('Data final:', data);
+      updateProductList(data);
+      return data;
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+      data = [];
+      return data;
+    }
+  }
+
+  const socketClient = io();
+  socketClient.on('connect', async () => {
+    console.log('Conectando al servidor socket.io');
+    await fetchProducts();
+  });
+
+  function updateProductList(products) {
+    ulList.innerHTML = '';
+    if (!Array.isArray(products) || products.length === 0) {
+      ulList.innerHTML = '<li class="px-6 py-4 text-gray-500">No hay productos disponibles</li>';
+      return;
+    }
+    products.forEach(product => {
+      const li = document.createElement('li');
+      li.className = 'px-6 py-4 flex justify-between items-center border-b border-gray-200';
+      li.innerHTML = `
+        <div>
+          <strong class="text-lg">${product.title || 'Sin título'}</strong>
+          <p class="text-gray-600">$${product.price || 'Sin precio'}</p>
+        </div>
+        <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-id="${product.id}">Eliminar</button>
+      `;
+      li.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(product.id));
+      ulList.appendChild(li);
+    });
+  }
+
+  async function deleteProduct(productId) {
+    try {
+      const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+      if (response.ok) {
+        console.log('Producto eliminado:', productId);
+        let updated = await fetchProducts();
+        console.log(updated);
+        socketClient.emit('update_ok', updated);
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error || 'No se pudo eliminar el producto'}`);
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      alert('Error al eliminar el producto');
+    }
+  }
+
+  document.getElementById('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const productData = Object.fromEntries(formData.entries());
+    productData.status = productData.status === 'true';
+    productData.price = parseFloat(productData.price);
+    productData.stock = parseInt(productData.stock);
+    productData.thumbnails = productData.thumbnails ? productData.thumbnails.split(',').map(url => url.trim()) : [];
+
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+      if (response.ok) {
+        const newProduct = await response.json();
+        e.target.reset();
+        let updated = await fetchProducts();
+        socketClient.emit('update_ok', updated);
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error || 'No se pudo agregar el producto'}`);
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      alert('Error al enviar el formulario');
+    }
+  });
+
+  socketClient.on('new_data', data => {
+    updateProductList(data);
+  });
+</script>

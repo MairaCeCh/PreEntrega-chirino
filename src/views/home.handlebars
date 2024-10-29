@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-4xl font-bold text-teal-600 mb-8">Productos de Perfumeria</h1>
+
+    <h2 class="text-2xl font-semibold text-gray-700 mb-6">Lista de Productos</h2>
+    {{log products}}
+    {{#if products.length}}
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {{#each products}}
+        <li class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            <p class="text-lg font-medium text-gray-800 mb-2">{{this.title}}</p>
+            
+            <div class="space-y-2">
+                <p class="text-teal-600 font-bold text-xl">
+                    ${{this.price}}
+                </p>
+                
+                <p class="text-sm text-gray-600">
+                    Categoría: <span class="font-medium">{{this.category}}</span>
+                </p>
+                
+                <p class="text-sm {{#if this.stock}}text-green-600{{else}}text-red-600{{/if}}">
+                    Stock: <span class="font-medium">{{this.stock}}</span> unidades
+                </p>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <p class="text-lg text-gray-500 italic">No hay productos disponibles</p>
+    {{/if}}
+</div>

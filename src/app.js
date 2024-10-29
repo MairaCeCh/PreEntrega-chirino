@@ -2,8 +2,20 @@ import express from "express";
 import config from "./config.js";
 import fs from "fs";
 import { nanoid } from "nanoid";
+import productsRouter from "./routes/products.router.js";
+import cartsRouter from "./routes/carts.router.js";
+import viewsRouter from "./routes/views.router.js"
+import { Server } from "socket.io";
+import handlebars from "express-handlebars";
+
 
 const app = express();
+//motor de plantillas
+app.engine("handlebars", handlebars.engine());
+app.set("views", `${config.DIRNAME}/views`);
+app.set("view engine", "handlebars");
+
+
 let storeProducts = [];
 let carts = [];
 
@@ -27,13 +39,34 @@ async function fetchCarts(filePath) {
 }
 
 fetchCarts("./src/carts.JSON");
-
+///api////
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+
+
+///vistas
+app.use("/views", viewsRouter)
+
+
+// Socket.io
 
 const httpServer = app.listen(config.PORT, () => {
   console.log(`todo ok en el puerto ${config.PORT}`);
 });
+const socketServer = new Server(httpServer);
+
+socketServer.on("connection", (socket) => {
+  socket.on("update_ok", (data) => {
+    console.log("update");
+    console.log(data);
+    socketServer.emit("new_data", data);
+  });
+});
+
 ///////productos
 
 app.get("/api/products", (req, res) => {
@@ -186,3 +219,7 @@ app.post("/api/carts/:cid/products/:pid", async (req, res) => {
   );
   res.status(201).send({ cart });
 });
+
+
+
+
