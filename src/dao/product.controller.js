@@ -13,7 +13,7 @@ class ProductController {
 
   get = async (options) => {
     try {
-      const { limit = 10, page = 1, sort, filter } = options;
+      const { limit , page , sort, filter } = options;
 
       let sortOptions;
       if (sort) {
