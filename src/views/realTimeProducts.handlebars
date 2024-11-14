@@ -1,174 +1,217 @@
+<div class="max-w-7xl mx-auto p-6"></div>
+    <div class="flex h-[calc(100vh-180px)] gap-6">
+        <!-- Formulario -->
+        <div class="w-1/3">
+            <h2 class="text-2xl font-bold text-teal-600 mb-6">Agregar Nuevo Producto</h2>
+            <form id="productForm" class="bg-white rounded-lg shadow-lg p-6 space-y-4">
+                <!-- Información básica -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="title">Título</label>
+                        <input type="text" id="title" name="title" required
+                               class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" />
+                    </div>
 
-<div class="container mx-auto px-4 py-8"></div>
-  <div class="mb-8">
-    <h2 class="text-2xl font-semibold mb-4">Lista de Productos</h2>
-    <ul id="ulList" class="bg-white shadow-md rounded-lg divide-y divide-gray-200"></ul>
-  </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="description">Descripción</label>
+                        <textarea id="description" name="description" required rows="3"
+                                  class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"></textarea>
+                    </div>
 
-  <div>
-    <h2 class="text-2xl font-semibold mb-4">Agregar Nuevo Producto</h2>
-    <form id="productForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Título:</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="title" name="title" required />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Descripción:</label>
-        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" required></textarea>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="code">Código:</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="code" name="code" required />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Precio:</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" id="price" name="price" step="0.01" required />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="status">Estado:</label>
-        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status">
-          <option value="true">Activo</option>
-          <option value="false">Inactivo</option>
-        </select>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">Stock:</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" id="stock" name="stock" required />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="category">Categoría:</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="category" name="category" required />
-      </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="thumbnails">Imágenes (URLs separadas por comas):</label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="thumbnails" name="thumbnails" />
-      </div>
-      <div class="flex items-center justify-between">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Agregar Producto
-        </button>
-      </div>
-    </form>
-  </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="code">Código único</label>
+                        <input type="text" id="code" name="code" required
+                               class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" />
+                    </div>
+                </div>
+
+                <!-- Precio y Stock -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="price">Precio</label>
+                        <input type="number" id="price" name="price" step="0.01" required
+                               class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="stock">Stock</label>
+                        <input type="number" id="stock" name="stock" required
+                               class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" />
+                    </div>
+                </div>
+
+                <!-- Estado y Categoría -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="status">Estado</label>
+                        <select id="status" name="status"
+                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2" for="category">Categoría</label>
+                        <select id="category" name="category" required
+                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                            <option value="">Seleccionar categoría</option>
+                            <option value="shampoo">Shampoo</option>
+                            <option value="jabon">Jabón</option>
+                            <option value="perfumes">Perfumes</option>
+                            <option value="colonia">Colonia</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="w-full px-6 py-3 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50">
+                    Agregar Producto
+                </button>
+            </form>
+        </div>
+
+        <!-- Lista de Productos -->
+        <div class="w-2/3 flex flex-col">
+            <h2 class="text-2xl font-bold text-teal-600 mb-6">Lista de Productos</h2>
+            <ul id="ulList" class="bg-white rounded-lg shadow-lg divide-y divide-gray-200 flex-1 overflow-y-auto"></ul>
+        </div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-  let data = [];
-  const ulList = document.getElementById('ulList');
+    let data = [];
+    const ulList = document.getElementById('ulList');
 
-  async function fetchProducts() {
-    try {
-      const response = await fetch('/api/products');
-      console.log('Response completo:', response);
-      
-      const result = await response.json();
-      console.log('Data parseada:', result);
-      console.log('Estructura de result:', {
-        esArray: Array.isArray(result),
-        tipo: typeof result,
-        tieneDataProp: result.hasOwnProperty('data'),
-        keys: Object.keys(result)
-      });
-      
-      if (Array.isArray(result)) {
-        data = result;
-      } else if (result.data && Array.isArray(result.data)) {
-        data = result.data;
-      } else {
-        console.error('Los datos recibidos no son un array:', result);
-        data = [];
-      }
-      
-      console.log('Data final:', data);
-      updateProductList(data);
-      return data;
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-      data = [];
-      return data;
+    // Función para obtener productos
+    async function fetchProducts() {
+        try {
+            const response = await fetch({{#if pg}}`/api/products/paginated/{{pg}}`{{else}}'/api/products/all'{{/if}});
+            const result = await response.json();
+            
+            if (Array.isArray(result.data.docs)) {
+                data = result.data.docs.reverse();
+            } else if (result.data && Array.isArray(result.data)) {
+                data = result.data.reverse();
+            } else {
+                console.error('Los datos recibidos no son un array:', result);
+                data = [];
+            }
+            
+            updateProductList(data);
+            return data;
+        } catch (error) {
+            console.error('Error al obtener productos:', error);
+            data = [];
+            return data;
+        }
     }
-  }
 
-  const socketClient = io();
-  socketClient.on('connect', async () => {
-    console.log('Conectando al servidor socket.io');
-    await fetchProducts();
-  });
-
-  function updateProductList(products) {
-    ulList.innerHTML = '';
-    if (!Array.isArray(products) || products.length === 0) {
-      ulList.innerHTML = '<li class="px-6 py-4 text-gray-500">No hay productos disponibles</li>';
-      return;
-    }
-    products.forEach(product => {
-      const li = document.createElement('li');
-      li.className = 'px-6 py-4 flex justify-between items-center border-b border-gray-200';
-      li.innerHTML = `
-        <div>
-          <strong class="text-lg">${product.title || 'Sin título'}</strong>
-          <p class="text-gray-600">$${product.price || 'Sin precio'}</p>
-        </div>
-        <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-id="${product.id}">Eliminar</button>
-      `;
-      li.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(product.id));
-      ulList.appendChild(li);
+    // Inicializar socket y cargar productos
+    const socketClient = io();
+    socketClient.on('connect', async () => {
+        console.log('Conectado al servidor socket.io');
+        await fetchProducts();
     });
-  }
 
-  async function deleteProduct(productId) {
-    try {
-      const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
-      if (response.ok) {
-        console.log('Producto eliminado:', productId);
-        let updated = await fetchProducts();
-        console.log(updated);
-        socketClient.emit('update_ok', updated);
-      } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.error || 'No se pudo eliminar el producto'}`);
-      }
-    } catch (error) {
-      console.error('Error al eliminar el producto:', error);
-      alert('Error al eliminar el producto');
+    // Función para actualizar la lista de productos
+    function updateProductList(products) {
+        ulList.innerHTML = '';
+        if (!Array.isArray(products) || products.length === 0) {
+            ulList.innerHTML = `
+                <li class="p-6 text-gray-500 text-center">
+                    <p class="text-lg">No hay productos disponibles</p>
+                </li>`;
+            return;
+        }
+        
+        products.forEach(product => {
+            const li = document.createElement('li');
+            li.className = 'p-6 hover:bg-gray-50 transition-colors';
+            li.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-medium text-gray-800">${product.title || 'Sin título'}</h3>
+                        <div class="space-x-4">
+                            <span class="text-teal-600 font-bold">$${product.price?.toFixed(2) || 'Sin precio'}</span>
+                            <span class="text-gray-600">Stock: ${product.stock || 0}</span>
+                            <span class="text-gray-600">
+                                Categoría: 
+                                <span class="bg-teal-100 text-teal-800 text-sm px-2 py-1 rounded">
+                                    ${product.category || 'Sin categoría'}
+                                </span>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-600">${product.description || 'Sin descripción'}</p>
+                    </div>
+                    <button class="delete-btn px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" data-id="${product._id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            `;
+            li.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(product._id));
+            ulList.appendChild(li);
+        });
     }
-  }
 
-  document.getElementById('productForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const productData = Object.fromEntries(formData.entries());
-    productData.status = productData.status === 'true';
-    productData.price = parseFloat(productData.price);
-    productData.stock = parseInt(productData.stock);
-    productData.thumbnails = productData.thumbnails ? productData.thumbnails.split(',').map(url => url.trim()) : [];
-
-    try {
-      const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData),
-      });
-      if (response.ok) {
-        const newProduct = await response.json();
-        e.target.reset();
-        let updated = await fetchProducts();
-        socketClient.emit('update_ok', updated);
-      } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.error || 'No se pudo agregar el producto'}`);
-      }
-    } catch (error) {
-      console.error('Error al enviar el formulario:', error);
-      alert('Error al enviar el formulario');
+    // Función para eliminar producto
+    async function deleteProduct(productId) {
+        try {
+            const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+            if (response.ok) {
+                console.log('Producto eliminado:', productId);
+                let updated = await fetchProducts();
+                socketClient.emit('update_ok', updated);
+            } else {
+                const errorData = await response.json();
+                alert(`Error: ${errorData.error || 'No se pudo eliminar el producto'}`);
+            }
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error);
+            alert('Error al eliminar el producto');
+        }
     }
-  });
 
-  socketClient.on('new_data', data => {
-    updateProductList(data);
-  });
+    // Manejador del formulario
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const productData = Object.fromEntries(formData.entries());
+        
+        // Procesar datos del formulario
+        productData.status = productData.status === 'true';
+        productData.price = parseFloat(productData.price);
+        productData.stock = parseInt(productData.stock);
+        productData.thumbnails = productData.thumbnails ? productData.thumbnails.split(',').map(url => url.trim()) : [];
+
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+            });
+
+            if (response.ok) {
+                console.log('Producto agregado exitosamente');
+                e.target.reset();
+                let updated = await fetchProducts();
+                socketClient.emit('update_ok', updated);
+            } else {
+                const errorData = await response.json();
+                alert(`Error: ${errorData.error || 'No se pudo agregar el producto'}`);
+            }
+        } catch (error) {
+            console.error('Error al enviar el formulario:', error);
+            alert('Error al enviar el formulario');
+        }
+    });
+
+    // Escuchar actualizaciones de socket
+    socketClient.on('new_data', data => {
+        updateProductList(data);
+    });
 </script>
