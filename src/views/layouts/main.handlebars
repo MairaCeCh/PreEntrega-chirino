@@ -1,13 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Perfumeria</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function createCart() {
+            try {
+                const response = await fetch('/api/carts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ products: [] })
+                });
+
+                if (response.ok) {
+                    const newCart = await response.json();
+                    console.log('newcart', newCart);
+                    alert(`Carrito creado con ID: ${newCart.data._id}`);
+                } else {
+                    alert('Error al crear el carrito');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al crear el carrito');
+            }
+        }
+
+        function filterProducts() {
+            try {
+                // Obtener parámetros actuales de la URL
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                // Obtener nuevos valores de los filtros
+                const newFilters = {
+                    query: document.getElementById('query').value,
+                    sort: document.getElementById('price').value,
+                    limit: document.getElementById('limit').value
+                };
+
+                // Actualizar o eliminar parámetros según los nuevos valores
+                Object.entries(newFilters).forEach(([key, value]) => {
+                    if (value && value !== "") {
+                        urlParams.set(key === 'price' ? 'sort' : key, value);
+                    } else if (key === document.activeElement.id) {
+                        // Solo eliminar el parámetro si el select actual está siendo modificado
+                        urlParams.delete(key === 'price' ? 'sort' : key);
+                    }
+                });
+
+                // Obtener el cid de la URL actual
+                const pathParts = window.location.pathname.split('/');
+                const cidIndex = pathParts.indexOf('views') + 1;
+                const cid = pathParts[cidIndex] && pathParts[cidIndex] !== 'products' ? pathParts[cidIndex] : null;
+
+                // Construir la URL base según si hay cid o no
+                const baseUrl = cid ? `/views/${cid}/products` : '/views/products';
+                
+                // Construir URL final manteniendo todos los parámetros
+                const queryString = urlParams.toString();
+                const finalUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+                window.location.href = finalUrl;
+            } catch (error) {
+                console.error('Error al aplicar filtros:', error);
+                alert('Error al aplicar los filtros');
+            }
+        }
+
+        function filterByAvailability(available) {
+            try {
+                // Mantener los parámetros actuales
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                // Actualizar o agregar el parámetro de disponibilidad
+                urlParams.set('available', available);
+
+                // Obtener el cid de la URL actual
+                const pathParts = window.location.pathname.split('/');
+                const cidIndex = pathParts.indexOf('views') + 1;
+                const cid = pathParts[cidIndex] && pathParts[cidIndex] !== 'products' ? pathParts[cidIndex] : null;
+
+                // Construir la URL base según si hay cid o no
+                const baseUrl = cid ? `/views/${cid}/products` : '/views/products';
+                
+                // Construir URL final manteniendo todos los parámetros
+                const queryString = urlParams.toString();
+                const finalUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+                window.location.href = finalUrl;
+            } catch (error) {
+                console.error('Error al filtrar por disponibilidad:', error);
+                alert('Error al aplicar el filtro de disponibilidad');
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100">
-    <h1 class="text-3xl font-bold text-center text-gray-800 my-6">Perfumeria</h1>
-    <div class="container mx-auto px-4">{{{body}}}</div>
+
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-teal-600 text-white p-4 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <h1 class="text-3xl font-bold">Perfumeria</h1>
+
+            <div class="flex flex-wrap items-center gap-4">
+                <!-- Enlaces principales -->
+                <div class="flex space-x-2">
+                    <a href="/views/products"
+                        class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">Productos</a>
+                    <a href="/views/realTimeProducts"
+                        class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">RealTime</a>
+                    <a href="/views/carts" class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">Carritos</a>
+                    <a href="/api/products" class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">API</a>
+                </div>
+
+                <!-- Filtros -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <select id="query"
+                        class="px-4 py-2 text-gray-700 bg-white rounded-lg border border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
+                        onchange="filterProducts()">
+                        <option value="">Categoría</option>
+                        <option value="shampoo">Shampoo</option>
+                        <option value="jabon">Jabon</option>
+                        <option value="perfumes">Perfumes</option>
+                        <option value="colonia">colonia</option>
+                        <option value="">Quitar Filtro</option>
+                    </select>
+
+                    <select id="price"
+                        class="px-4 py-2 text-gray-700 bg-white rounded-lg border border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
+                        onchange="filterProducts()">
+                        <option value="">Ordenar</option>
+                        <option value="asc">Precio ↑</option>
+                        <option value="desc">Precio ↓</option>
+                        <option value="">Quitar Filtro</option>
+                    </select>
+
+                    <select id="limit"
+                        class="px-4 py-2 text-gray-700 bg-white rounded-lg border border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
+                        onchange="filterProducts()">
+                        <option value="">Límite</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="">Quitar Filtro</option>
+                    </select>
+
+                    <!-- Botones de disponibilidad -->
+                    <div class="flex gap-2">
+                        <button onclick="filterByAvailability(true)"
+                            class="px-4 py-2 bg-teal-500 hover:bg-teal-600 rounded-lg transition-colors">
+                            Disponibles
+                        </button>
+                        <button onclick="filterByAvailability(false)"
+                            class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors">
+                            No Disponibles
+                        </button>
+                    </div>
+
+                    <!-- Botón crear carrito -->
+                    <button onclick="createCart()"
+                        class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                        </svg>
+                        Crear Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto mt-8 px-4">
+        {{{body}}}
+    </main>
 </body>
+
 </html>

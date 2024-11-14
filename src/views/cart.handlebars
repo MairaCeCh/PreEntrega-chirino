@@ -1,0 +1,75 @@
+<div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-4xl font-bold text-teal-600 mb-8">Carrito de Compras</h1>
+    <p class="text-gray-600 mb-6">ID del carrito: <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{cart._id}}</span></p>
+
+    {{#if cart.products.length}}
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <ul class="divide-y divide-gray-200">
+            {{#each cart.products}}
+            <li class="p-6 hover:bg-gray-50 transition-colors">
+                <div class="flex justify-between items-center">
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-medium text-gray-800">{{this._id.title}}</h3>
+                        
+                        <div class="space-x-4">
+                            <span class="text-teal-600 font-bold">${{this._id.price}}</span>
+                            <span class="text-gray-600">
+                                Cantidad: 
+                                <span class="font-medium bg-teal-100 text-teal-800 px-2 py-1 rounded">
+                                    {{this.quantity}}
+                                </span>
+                            </span>
+                        </div>
+
+            
+                    </div>
+
+                    <button onclick="deleteProduct('{{../cart._id}}', '{{this._id._id}}')" 
+                            class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+
+        <div class="bg-gray-50 p-6">
+            <div class="flex justify-between items-center">
+                <span class="text-lg font-medium text-gray-800">Total del Carrito:</span>
+                <span class="text-2xl font-bold text-teal-600">
+                    ${{total}}
+                </span>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="bg-gray-50 border-l-4 border-teal-500 p-6 rounded-lg">
+        <p class="text-lg text-gray-500 italic">No hay productos en el carrito.</p>
+        <a href="/views/products" class="inline-block mt-4 px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors">
+            Ir a Productos
+        </a>
+    </div>
+    {{/if}}
+</div>
+
+<script>
+    async function deleteProduct(cid, pid) {
+        try {
+            const response = await fetch(`/api/carts/${cid}/products/${pid}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Producto eliminado con éxito');
+                location.reload();
+            } else {
+                alert('Error al eliminar el producto');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al eliminar el producto');
+        }
+    }
+</script>

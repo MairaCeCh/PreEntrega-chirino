@@ -1,31 +1,107 @@
-<div class="max-w-4xl mx-auto p-6">
+<div class="max-w-4xl mx-auto p-6"></div>
     <h1 class="text-4xl font-bold text-teal-600 mb-8">Productos de Perfumeria</h1>
 
     <h2 class="text-2xl font-semibold text-gray-700 mb-6">Lista de Productos</h2>
-    {{log products}}
-    {{#if products.length}}
-    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {{#each products}}
-        <li class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-            <p class="text-lg font-medium text-gray-800 mb-2">{{this.title}}</p>
-            
-            <div class="space-y-2">
-                <p class="text-teal-600 font-bold text-xl">
-                    ${{this.price}}
-                </p>
+    {{log cid}}
+
+    <div class="h-[calc(100vh-330px)]">
+        {{#if products.docs.length}}
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto">
+            {{#each products.docs}}
+            <li class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">{{this.title}}</h3>
                 
-                <p class="text-sm text-gray-600">
-                    Categoría: <span class="font-medium">{{this.category}}</span>
-                </p>
-                
-                <p class="text-sm {{#if this.stock}}text-green-600{{else}}text-red-600{{/if}}">
-                    Stock: <span class="font-medium">{{this.stock}}</span> unidades
-                </p>
+                <div class="space-y-3">
+                    <p class="text-teal-600 font-bold text-xl">
+                        ${{this.price}}
+                    </p>
+                    
+                    <p class="text-sm text-gray-600">
+                        Categoría: <span class="bg-teal-100 text-teal-800 px-2 py-1 rounded">{{this.category}}</span>
+                    </p>
+                    
+                    <p class="text-sm {{#if this.status}}text-green-600{{else}}text-red-600{{/if}}">
+                        Estado: <span class="font-medium">{{#if this.status}}Disponible{{else}}No disponible{{/if}}</span>
+                    </p>
+
+                    <p class="text-sm {{#if this.stock}}text-green-600{{else}}text-red-600{{/if}}">
+                        Stock: <span class="font-medium">{{this.stock}}</span> unidades
+                    </p>
+
+                    <div class="flex flex-col gap-2 mt-4">
+                        <a href="{{#if ../cid}}/views/{{../cid}}/products/{{this._id}}{{else}}/views/products/{{this._id}}{{/if}}" 
+                           class="w-full px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors text-center">
+                            Ver Producto
+                        </a>
+                        
+                        {{#if ../cid}}
+                        <button class="add-to-cart-btn w-full px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors"
+                                data-id="{{this._id}}" 
+                                data-cid="{{../cid}}">
+                            Agregar al Carrito
+                        </button>
+                        {{/if}}
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+
+        <div class="mt-6 flex justify-between">
+            <div class="flex-grow">
+                {{#if products.hasPrevPage}}
+                <a href="/views/products/paginated/{{products.prevPage}}" 
+                   class="inline-block px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors">
+                    Página Anterior
+                </a>
+                {{/if}}
             </div>
-        </li>
-        {{/each}}
-    </ul>
-    {{else}}
-    <p class="text-lg text-gray-500 italic">No hay productos disponibles</p>
-    {{/if}}
+
+            {{#if products.hasNextPage}}
+            <a href="/views/products/paginated/{{products.nextPage}}" 
+               class="inline-block px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors">
+                Página Siguiente
+            </a>
+            {{/if}}
+        </div>
+        {{else}}
+        <p class="text-lg text-gray-500 italic bg-gray-50 border-l-4 border-teal-500 p-4">
+            No hay productos disponibles en este momento.
+        </p>
+        {{/if}}
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const cid = button.getAttribute('data-cid'); 
+                const pid = button.getAttribute('data-id'); 
+
+                try {
+                    const response = await fetch(`/api/carts/${cid}/products/${pid}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ productId: pid })
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert(`Producto agregado al carrito: ${result.data}`);
+                    } else {
+                        const errorResult = await response.json();
+                        alert(`Error al agregar el producto al carrito: ${errorResult.error}`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al agregar el producto al carrito');
+                }
+            });
+        });
+    });
+</script>
