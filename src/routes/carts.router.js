@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.post("/:cid/products/:pid", async (req, res) => {
+router.put("/:cid/products/:pid", async (req, res) => {
     const { cid, pid } = req.params;
     const cart = await controller.fOne({ _id: cid });
     
