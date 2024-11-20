@@ -58,7 +58,7 @@
                 const cid = pathParts[cidIndex] && pathParts[cidIndex] !== 'products' ? pathParts[cidIndex] : null;
 
                 // Construir la URL base según si hay cid o no
-                const baseUrl = cid ? `/views/${cid}/products` : '/views/products';
+                const baseUrl = cid ? `/${cid}/products` : '/products';
                 
                 // Construir URL final manteniendo todos los parámetros
                 const queryString = urlParams.toString();
@@ -85,7 +85,7 @@
                 const cid = pathParts[cidIndex] && pathParts[cidIndex] !== 'products' ? pathParts[cidIndex] : null;
 
                 // Construir la URL base según si hay cid o no
-                const baseUrl = cid ? `/views/${cid}/products` : '/views/products';
+                const baseUrl = cid ? `/${cid}/products` : '/products';
                 
                 // Construir URL final manteniendo todos los parámetros
                 const queryString = urlParams.toString();
@@ -108,11 +108,11 @@
             <div class="flex flex-wrap items-center gap-4">
                 <!-- Enlaces principales -->
                 <div class="flex space-x-2">
-                    <a href="/views/products"
+                    <a href="/products"
                         class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">Productos</a>
-                    <a href="/views/realTimeProducts"
+                    <a href="/realTimeProducts"
                         class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">RealTime</a>
-                    <a href="/views/carts" class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">Carritos</a>
+                    <a href="/carts" class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">Carritos</a>
                     <a href="/api/products" class="px-4 py-2 hover:bg-teal-500 rounded-lg transition-colors">API</a>
                 </div>
 

@@ -23,7 +23,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
 /// Vistas
-app.use("/views", viewsRouter);
+app.use("/", viewsRouter);
 
 // Socket.io
 const httpServer = app.listen(config.PORT, async () => {

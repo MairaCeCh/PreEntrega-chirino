@@ -29,7 +29,7 @@
                     </p>
 
                     <div class="flex flex-col gap-2 mt-4">
-                        <a href="{{#if ../cid}}/views/{{../cid}}/products/{{this._id}}{{else}}/views/products/{{this._id}}{{/if}}" 
+                        <a href="{{#if ../cid}}/{{../cid}}/products/{{this._id}}{{else}}/products/{{this._id}}{{/if}}" 
                            class="w-full px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors text-center">
                             Ver Producto
                         </a>
@@ -50,7 +50,7 @@
         <div class="mt-6 flex justify-between">
             <div class="flex-grow">
                 {{#if products.hasPrevPage}}
-                <a href="/views/products/paginated/{{products.prevPage}}" 
+                <a href="/products/paginated/{{products.prevPage}}" 
                    class="inline-block px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors">
                     Página Anterior
                 </a>
@@ -58,7 +58,7 @@
             </div>
 
             {{#if products.hasNextPage}}
-            <a href="/views/products/paginated/{{products.nextPage}}" 
+            <a href="/products/paginated/{{products.nextPage}}" 
                class="inline-block px-6 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition-colors">
                 Página Siguiente
             </a>
