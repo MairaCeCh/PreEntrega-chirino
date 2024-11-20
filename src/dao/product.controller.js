@@ -28,7 +28,7 @@ class ProductController {
 
       if (!filter || Object.keys(filter).length === 0) {
         return await productModel.paginate({}, {
-          limit: 10,
+          limit: limit,
           page: parseInt(page, 10),
           sort: sortOptions,
           lean: true
