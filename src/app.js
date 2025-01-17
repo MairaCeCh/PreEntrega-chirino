@@ -6,6 +6,11 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import config from "./config.js";
+import cookieParser from "cookie-parser";
+import pruebasRouter from "./pruebasRouter.js";
+import session from "express-session"
+import router from "./pruebasRouter.js";
+
 
 const app = express();
 
@@ -19,8 +24,23 @@ app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/////cookies////
+app.use(cookieParser('maySecret'));
+
+////session///
+app.use(session({
+  secret: "secretCoder",
+  resave: true,
+  saveUninitialized:true
+}))
+
+
+
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api", router);
+
+app.use("/pruebas", pruebasRouter);
 
 /// Vistas
 app.use("/", viewsRouter);
